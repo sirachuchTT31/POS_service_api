@@ -1,0 +1,20 @@
+{
+  "name": "pos_service_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/hapi": "^21.3.3",
+    "@prisma/client": "^5.10.2",
+    "bcrypt": "^5.1.1",
+    "http-status-codes": "^2.3.0",
+    "joi": "^17.12.2",
+    "nodemon": "^3.1.0"
+  }
+}
