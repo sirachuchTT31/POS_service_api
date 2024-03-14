@@ -1,4 +1,4 @@
-const {routers} = require('../routers/routers.js')
+const { routers } = require('../routers/routers.js')
 module.exports = {
     plugin: {
         name: 'router',

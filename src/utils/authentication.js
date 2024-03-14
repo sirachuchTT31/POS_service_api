@@ -2,13 +2,14 @@ const { PrismaClient } = require('@prisma/client')
 const prismaClient = new PrismaClient()
 const registerValidate = require('../validate/register.validate.js')
 const loginValidate = require('../validate/login.validate.js')
-const BaseResult = require('../utils/Response.js')
-const BaseInterface = require('../utils/Response_model.js')
+const BaseResult = require('./Response.js')
+const BaseInterface = require('./Response_model.js')
 const http_response = require('../constant/http-response.js')
 const bcrypt = require('bcrypt')
 // const jwt = require('jsonwebtoken')
-const { jwtAccessToken, jwtDecode, jwtVerify } = require('../authentication/jwt.js')
+const { jwtAccessToken, jwtDecode, jwtVerify } = require('./jwt.handler.js')
 const Register = {
+    auth : false,
     handler: async (request, reply) => {
         try {
             const payload = request.payload
@@ -104,18 +105,8 @@ const Register = {
     }
 }
 
-const validate = async (headers, secretKey) => {
-    try {
-        const bearer = headers.authorization
-        const jwt_verify = jwtVerify(bearer, secretKey)
-        return jwt_verify
-
-    }
-    catch (e) {
-        console.log(e)
-    }
-}
 const Login = {
+    auth : false,
     handler: async (request, reply) => {
         try {
             const payload = request.payload

@@ -25,17 +25,20 @@ const jwtVerify = async (headers, secretKey) => {
     try {
         const bearer = headers
         const key = secretKey
-        console.log('bearer',bearer)
+        console.log('secretKey', secretKey)
         if (bearer) {
-            const verify = jwt.verify(bearer, key, {
-                algorithms: ['HS256']
-            })
-            console.log('verify',verify)
-           if(verify){
-            return true
-           }
+            let verify = jwt.verify(bearer, key, { algorithms: ['HS256'] })
+            if (verify) {
+                return {
+                    isValid: true,
+                    data: verify
+                }
+            }
         }
-        return false
+        return {
+            isValid : false,
+            data : {}
+        }
     }
     catch (e) {
         console.log(e)

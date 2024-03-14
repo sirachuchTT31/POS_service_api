@@ -1,5 +1,6 @@
-const Authentication = require('../authentication/authentication.js')
+const Authentication = require('../utils/authentication.js')
 const Controller = require('../controllers/api.controllers.js')
+const { jwtVerify } = require('../utils/jwt.handler.js')
 const routers = [
     {
         method: 'POST',
@@ -13,9 +14,11 @@ const routers = [
     },
     //API
     {
-        method : 'GET',
-        path : '/api/users/getall',
-        config : Controller.getUserAll
+        method: 'GET',
+        path: '/api/users/getall',
+        config: Controller.getUserAll,
+        // auth : 'jwt'
+
     }
 ]
 
