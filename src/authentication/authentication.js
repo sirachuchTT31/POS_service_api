@@ -6,6 +6,8 @@ const BaseResult = require('../utils/Response.js')
 const BaseInterface = require('../utils/Response_model.js')
 const http_response = require('../constant/http-response.js')
 const bcrypt = require('bcrypt')
+// const jwt = require('jsonwebtoken')
+const { jwtAccessToken, jwtDecode, jwtVerify } = require('../authentication/jwt.js')
 const Register = {
     handler: async (request, reply) => {
         try {
@@ -102,6 +104,17 @@ const Register = {
     }
 }
 
+const validate = async (headers, secretKey) => {
+    try {
+        const bearer = headers.authorization
+        const jwt_verify = jwtVerify(bearer, secretKey)
+        return jwt_verify
+
+    }
+    catch (e) {
+        console.log(e)
+    }
+}
 const Login = {
     handler: async (request, reply) => {
         try {
@@ -118,11 +131,18 @@ const Login = {
                 }).catch((e) => {
                     return e
                 })
-                if (responseLogin) {
-                    BaseInterface.IBaseSingleResultModel.result = responseLogin
+                const responsePassword = responseLogin?.password
+                const comparePassword = await bcrypt.compare(value.password, responsePassword)
+                if (comparePassword == true) {
+                    const token = jwtAccessToken({ username: value.username })
+                    const payload_jwt = jwtDecode(token)
+                    BaseInterface.IBaseSingleResultModel.result = {
+                        token: token,
+                        ...payload_jwt
+                    }
                     BaseInterface.IBaseSingleResultModel.status = true
                     BaseInterface.IBaseSingleResultModel.status_code = http_response.STATUS_200.status_code
-                    BaseInterface.IBaseSingleResultModel.message = 'Get data successfully'
+                    BaseInterface.IBaseSingleResultModel.message = 'Login successfully'
                     BaseInterface.IBaseSingleResultModel.errorMessage = null
                     return reply.response(await BaseResult.IBaseSingleResult(BaseInterface.IBaseSingleResultModel))
                 }
@@ -130,6 +150,7 @@ const Login = {
                     BaseInterface.IBaseSingleResultModel.result = null
                     BaseInterface.IBaseSingleResultModel.status = false
                     BaseInterface.IBaseSingleResultModel.status_code = http_response.STATUS_200.status_code
+                    BaseInterface.IBaseSingleResultModel.message = 'Password not match'
                     BaseInterface.IBaseSingleResultModel.errorMessage = null
                     return reply.response(await BaseResult.IBaseSingleResult(BaseInterface.IBaseSingleResultModel))
                 }
@@ -142,7 +163,8 @@ const Login = {
 }
 
 
+
 module.exports = {
     Register,
-    Login
+    Login,
 }

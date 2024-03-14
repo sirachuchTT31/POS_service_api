@@ -14,6 +14,14 @@ const connectDB = async () => {
     }
 }
 
+const plugin = {
+    plugin : {
+        name : 'prisma',
+        version : '1.0.0',
+        register : connectDB
+    }
+}
+
 module.exports = {
-    connectDB
+    plugin
 }
