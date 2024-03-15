@@ -3,10 +3,11 @@ const prismaClient = new PrismaClient()
 const verify_auth = require('../utils/jwt.handler.js')
 
 const getUserAll = {
+    // auth : 'jwt',
     handler: async (request, reply) => {
         try {
             console.log('test')
-            console.log(request.headers.Authorization)
+            // console.log(request.headers.Authorization)
             return reply.response({
                 response : 'test'
             })

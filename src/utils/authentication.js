@@ -8,6 +8,7 @@ const http_response = require('../constant/http-response.js')
 const bcrypt = require('bcrypt')
 // const jwt = require('jsonwebtoken')
 const { jwtAccessToken, jwtDecode, jwtVerify } = require('./jwt.handler.js')
+const Boom = require('boom')
 const Register = {
     auth : false,
     handler: async (request, reply) => {
@@ -122,6 +123,9 @@ const Login = {
                 }).catch((e) => {
                     return e
                 })
+                if(!responseLogin){
+                    return Boom.badRequest()
+                }
                 const responsePassword = responseLogin?.password
                 const comparePassword = await bcrypt.compare(value.password, responsePassword)
                 if (comparePassword == true) {
@@ -148,7 +152,7 @@ const Login = {
             }
         }
         catch (e) {
-
+            console.log(e)
         }
     }
 }

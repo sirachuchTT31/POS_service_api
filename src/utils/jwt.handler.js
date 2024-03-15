@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const jwtAccessToken = (data) => {
     try {
         if (data.username) {
-            const accessToken = jwt.sign(data, process.env.SECRET_KEY, { expiresIn: 600000, algorithm: 'HS256' })
+            const accessToken = jwt.sign(data, process.env.SECRET_KEY, { expiresIn: '10000s', algorithm: 'HS256' })
             return accessToken
         }
     }
@@ -25,7 +25,6 @@ const jwtVerify = async (headers, secretKey) => {
     try {
         const bearer = headers
         const key = secretKey
-        console.log('secretKey', secretKey)
         if (bearer) {
             let verify = jwt.verify(bearer, key, { algorithms: ['HS256'] })
             if (verify) {

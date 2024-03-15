@@ -17,8 +17,6 @@ const routers = [
         method: 'GET',
         path: '/api/users/getall',
         config: Controller.getUserAll,
-        // auth : 'jwt'
-
     }
 ]
 
