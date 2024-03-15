@@ -14,9 +14,14 @@ const routers = [
     },
     //API
     {
-        method: 'GET',
-        path: '/api/users/getall',
-        config: Controller.getUserAll,
+        method: 'POST',
+        path: '/api/users/create',
+        config: Controller.CreateUser,
+    },
+    {
+        method : 'POST',
+        path : '/api/users/updatetheme',
+        config : Controller.UpdateTheme
     }
 ]
 
